@@ -46,8 +46,11 @@ class TitleScene extends Phaser.Scene {
         playButton.setScale(0.5);
         playButton.setOrigin(0.5);
         playButton.setInteractive();
+        console.log(this.cameras.main);
+
         playButton.on("pointerdown", () => {
             this.cameras.main.fadeOut(500, 0, 0, 0, () => {
+                console.log("camera fade");
                 this.scene.start("LobbyScene");
             });
         });
