@@ -7,10 +7,18 @@ export class CharacterMovement {
     private scene: Phaser.Scene;
     private xstop: boolean = true;
     private ystop: boolean = true;
+    private speed: number;
+    private diagonalSpeed: number;
 
-    constructor(player: Phaser.Physics.Arcade.Sprite, scene: Phaser.Scene) {
+    constructor(
+        player: Phaser.Physics.Arcade.Sprite,
+        scene: Phaser.Scene,
+        speed: number
+    ) {
         this.player = player;
         this.scene = scene;
+        this.speed = speed;
+        this.diagonalSpeed = this.speed / Math.sqrt(2);
         this.initAnimations();
     }
 
@@ -58,7 +66,7 @@ export class CharacterMovement {
 
     moveUp() {
         this.ystop = false;
-        this.player.setVelocityY(-100); // Adjust velocity as needed
+        this.player.setVelocityY(-this.speed); // Adjust velocity as needed
         this.player.setVelocityX(0); // Adjust velocity as needed
 
         this.player.anims.play("walkUp", true); // Play walk animation
@@ -66,7 +74,7 @@ export class CharacterMovement {
 
     moveDown() {
         this.ystop = false;
-        this.player.setVelocityY(100); // Adjust velocity as needed
+        this.player.setVelocityY(this.speed); // Adjust velocity as needed
         this.player.setVelocityX(0); // Adjust velocity as needed
         this.player.anims.play("walkDown", true); // Play walk animation
     }
@@ -74,7 +82,7 @@ export class CharacterMovement {
     moveLeft() {
         this.xstop = false;
         this.player.setVelocityY(0); // Adjust velocity as needed
-        this.player.setVelocityX(-100); // Adjust velocity as needed
+        this.player.setVelocityX(-this.speed); // Adjust velocity as needed
         this.player.setScale(-1, 1); // Flip sprite horizontally
         this.player.anims.play("walkRight", true); // Play walk animation
     }
@@ -82,39 +90,39 @@ export class CharacterMovement {
     moveRight() {
         this.xstop = false;
         this.player.setVelocityY(0); // Adjust velocity as needed
-        this.player.setVelocityX(100); // Adjust velocity as needed
+        this.player.setVelocityX(this.speed); // Adjust velocity as needed
         this.player.setScale(1, 1); // Reset sprite scale if flipped
         this.player.anims.play("walkRight", true); // Play walk animation
     }
     moveUpRight() {
         this.ystop = false;
         this.xstop = false;
-        this.player.setVelocityY(-100); // Adjust velocity as needed
-        this.player.setVelocityX(100); // Adjust velocity as needed
+        this.player.setVelocityY(-this.diagonalSpeed); // Adjust velocity as needed
+        this.player.setVelocityX(this.diagonalSpeed); // Adjust velocity as needed
         this.player.setScale(1, 1); // Reset sprite scale if flipped
         this.player.anims.play("walkDiag", true); // Play walk animation
     }
     moveUpLeft() {
         this.ystop = false;
         this.xstop = false;
-        this.player.setVelocityY(-100); // Adjust velocity as needed
-        this.player.setVelocityX(-100); // Adjust velocity as needed
+        this.player.setVelocityY(-this.diagonalSpeed); // Adjust velocity as needed
+        this.player.setVelocityX(-this.diagonalSpeed); // Adjust velocity as needed
         this.player.setScale(-1, 1); // Reset sprite scale if flipped
         this.player.anims.play("walkDiag", true); // Play walk animation
     }
     moveDownLeft() {
         this.ystop = false;
         this.xstop = false;
-        this.player.setVelocityY(100); // Adjust velocity as needed
-        this.player.setVelocityX(-100); // Adjust velocity as needed
+        this.player.setVelocityY(this.diagonalSpeed); // Adjust velocity as needed
+        this.player.setVelocityX(-this.diagonalSpeed); // Adjust velocity as needed
         this.player.setScale(-1, 1); // Reset sprite scale if flipped
         this.player.anims.play("walkRight", true); // Play walk animation
     }
     moveDownRight() {
         this.ystop = false;
         this.xstop = false;
-        this.player.setVelocityY(100); // Adjust velocity as needed
-        this.player.setVelocityX(100); // Adjust velocity as needed
+        this.player.setVelocityY(this.diagonalSpeed); // Adjust velocity as needed
+        this.player.setVelocityX(this.diagonalSpeed); // Adjust velocity as needed
         this.player.setScale(1, 1); // Reset sprite scale if flipped
         this.player.anims.play("walkRight", true); // Play walk animation
     }

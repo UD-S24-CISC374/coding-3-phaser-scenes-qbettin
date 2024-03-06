@@ -37,7 +37,7 @@ class LobbyScene extends Phaser.Scene {
         this.player = this.physics.add.sprite(100, 100, "player");
 
         // Create an instance of CharacterMovement
-        this.characterMovement = new CharacterMovement(this.player, this);
+        this.characterMovement = new CharacterMovement(this.player, this, 300);
 
         // Enable cursor keys for keyboard input
         this.cursors = this.input.keyboard?.createCursorKeys();
