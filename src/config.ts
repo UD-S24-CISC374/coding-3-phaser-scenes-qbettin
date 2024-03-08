@@ -2,6 +2,8 @@ import Phaser from "phaser";
 import PreloadScene from "./scenes/preloadScene";
 import TitleScene from "./scenes/titleScene";
 import LobbyScene from "./scenes/lobbyScene";
+import GameScene from "./scenes/gameScene";
+import InventoryScene from "./scenes/inventoryScene";
 
 const DEFAULT_WIDTH = 1280;
 const DEFAULT_HEIGHT = 720;
@@ -19,7 +21,7 @@ export const CONFIG: Phaser.Types.Core.GameConfig = {
         height: DEFAULT_HEIGHT,
         mode: Phaser.Scale.FIT,
     },
-    scene: [PreloadScene, TitleScene, LobbyScene],
+    scene: [PreloadScene, TitleScene, LobbyScene, GameScene, InventoryScene],
     plugins: {
         global: [
             {

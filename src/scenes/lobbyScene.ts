@@ -1,10 +1,12 @@
 import Phaser from "phaser";
 import { CharacterMovement } from "../util/playerMovement";
+import { gameState } from "../objects/gameState";
 
 class LobbyScene extends Phaser.Scene {
     private player?: Phaser.Physics.Arcade.Sprite;
     private characterMovement: CharacterMovement;
     private cursors?: Phaser.Types.Input.Keyboard.CursorKeys;
+    private gameState: gameState;
 
     constructor() {
         super({ key: "LobbyScene" });
@@ -15,12 +17,16 @@ class LobbyScene extends Phaser.Scene {
             "titleScreenBackground",
             "assets/titleScreenBackground.png"
         );
+        this.load.image("door", "assets/lobby_door.png");
 
         // Preload your player spritesheet if not already loaded
         this.load.spritesheet("player", "assets/hunter_walk_anim.png", {
             frameWidth: 64,
             frameHeight: 116,
         });
+    }
+    init(data: { gameState: gameState }) {
+        this.gameState = data.gameState;
     }
 
     create() {
@@ -36,11 +42,37 @@ class LobbyScene extends Phaser.Scene {
         // Create player sprite
         this.player = this.physics.add.sprite(100, 100, "player");
 
+        const door = this.physics.add.image(900, 400, "door");
+        door.setScale(0.1); // Adjust scale as needed
+        door.setOrigin(0.1);
+
+        // Enable door to be a physics object with collision
+        door.setImmovable(true);
+        door.setCollideWorldBounds(true);
+
+        // Add collision detection with the player
+        this.physics.add.collider(
+            this.player,
+            door,
+            this.onDoorCollision,
+            undefined,
+            this
+        );
+
         // Create an instance of CharacterMovement
-        this.characterMovement = new CharacterMovement(this.player, this, 300);
+        this.characterMovement = new CharacterMovement(
+            this.player,
+            this,
+            300,
+            this.gameState
+        );
 
         // Enable cursor keys for keyboard input
         this.cursors = this.input.keyboard?.createCursorKeys();
+    }
+    private onDoorCollision() {
+        // Start the GameScene when player collides with the door
+        this.scene.start("GameScene", { gameState: this.gameState });
     }
 
     update() {

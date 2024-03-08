@@ -1,6 +1,7 @@
 // playerMovement.ts
 
 import Phaser from "phaser";
+import { gameState } from "../objects/gameState";
 
 export class CharacterMovement {
     private player: Phaser.Physics.Arcade.Sprite;
@@ -9,20 +10,26 @@ export class CharacterMovement {
     private ystop: boolean = true;
     private speed: number;
     private diagonalSpeed: number;
+    private gameState: gameState;
 
     constructor(
         player: Phaser.Physics.Arcade.Sprite,
         scene: Phaser.Scene,
-        speed: number
+        speed: number,
+        gameState: gameState
     ) {
         this.player = player;
         this.scene = scene;
         this.speed = speed;
+        this.gameState = gameState;
         this.diagonalSpeed = this.speed / Math.sqrt(2);
-        this.initAnimations();
+        if (!this.gameState.hasAnims) {
+            this.initAnimations();
+        }
     }
 
     private initAnimations() {
+        this.gameState.hasAnims = true;
         // Define animations for walking in different directions
         this.scene.anims.create({
             key: "walkDown",
